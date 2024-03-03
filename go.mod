@@ -1,6 +1,6 @@
 module github.com/gofsd/fsd
 
-go 1.22
+go 1.20
 
 require (
 	github.com/ChimeraCoder/gojson v1.1.0
