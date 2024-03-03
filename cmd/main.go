@@ -72,7 +72,7 @@ func Execute() error {
 }
 
 func initConfig() {
-	//config.ReadCfgFromFile(nil)
+	config.ReadCfgFromFile(nil)
 	//config.SetMainCmd(MainCmd)
 	//config.SetLog()
 
