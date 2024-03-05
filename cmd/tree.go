@@ -5,8 +5,9 @@ package cmd
 
 import (
 	"fmt"
+	"path/filepath"
 
-	fsd "github.com/gofsd/fsd-types"
+	typ "github.com/gofsd/fsd-types"
 	c "github.com/gofsd/fsd/pkg/cmd"
 	kv "github.com/gofsd/fsd/pkg/kv"
 	s "github.com/gofsd/fsd/pkg/store"
@@ -15,7 +16,7 @@ import (
 
 func Tree(rootCmd *cobra.Command) *cobra.Command {
 	var (
-		value, dbName           string
+		value, dbName           string = "", "fsd.bolt"
 		action                  uint8
 		id, defaultID, bucketID uint16
 	)
@@ -30,36 +31,36 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			db := s.New(
-				s.SetFullDbName(dbName),
+				s.SetFullDbName(filepath.Join(typ.FSD_FULL_FOLDER_NAME, dbName)),
 				s.SetBucketName(kv.GetKeyFromInt(bucketID)),
 			)
-			pair := &fsd.Pair{}
+			pair := &typ.Pair{}
 			pair.SetID(uint64(id))
 			pair.FromString(value)
 			defer db.Close()
 			h := c.Set(cmd).
-				Equal(action, CREATE).
+				Equal(action, typ.CREATE).
 				AND().
 				Equal(id, defaultID).
 				HandleCRUD(db.JustCreate, pair).
-				Equal(action, READ).
+				Equal(action, typ.READ).
 				AND().
 				NotEqual(id, defaultID).
 				HandleCRUD(db.JustRead, pair).
-				Equal(action, UPDATE).
+				Equal(action, typ.UPDATE).
 				AND().
 				NotEqual(id, defaultID).
 				HandleCRUD(db.JustUpdate, pair).
-				Equal(action, DELETE).
+				Equal(action, typ.DELETE).
 				AND().
 				NotEqual(id, defaultID).
 				HandleCRUD(db.JustDelete, pair).
 				Error().
-				Equal(Output, "byte").
+				Equal(typ.Output, typ.JSON).
 				HandleB(pair.Json).
-				Equal(Output, "json").
+				Equal(typ.Output, typ.JSON).
 				HandleB(pair.Json).
-				Equal(Output, "string").
+				Equal(typ.Output, typ.STRING).
 				JustStr(pair.String).
 				Error()
 			return h.E
@@ -73,8 +74,8 @@ to quickly create a Cobra application.`,
 	treeCmd.Flags().Uint16VarP(&id, "id", "i", id, "Tree value id(use 0 if you use create action)")
 	treeCmd.MarkFlagRequired("id")
 	treeCmd.Flags().Uint16VarP(&bucketID, "bucket", "b", bucketID, "Bucket ID")
-	treeCmd.Flags().StringVarP(&dbName, "db-name", "d", DbName, "Db Name")
-	treeCmd.Flags().StringVarP(&Output, "output", "o", Output, "Parent ID")
+	treeCmd.Flags().StringVarP(&dbName, "db-name", "d", dbName, "Db Name")
+	treeCmd.Flags().Uint8VarP(&typ.Output, "output", "o", typ.Output, "Outputs: string is 1, json is 2, gob is 3, pjson is 4")
 
 	rootCmd.AddCommand(treeCmd)
 

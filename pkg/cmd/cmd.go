@@ -288,7 +288,7 @@ func (str *CommandStore) Save(command typs.Command, cmdOutput []byte) (cmd typs.
 
 func Store() CommandStore {
 	var str CommandStore
-	str.DB = store.New(store.SetFullDbName("commands"))
+	str.DB = store.New(store.SetFullDbName(typs.LogFullName))
 	return str
 }
 

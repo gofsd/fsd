@@ -16,7 +16,7 @@ const (
 	DEFAULT_DB_PATH                 = "/tmp"
 	DEFAULT_DB_NAME                 = "test.bolt"
 	DEFAULT_BUCKET_NAME             = "DEFAUTL"
-	RW_FOR_ALL          os.FileMode = 0777
+	RW_FOR_ALL          os.FileMode = 0666
 )
 
 type Stores map[string]*Store

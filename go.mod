@@ -116,7 +116,7 @@ require (
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/gofrs/uuid v4.0.0+incompatible // indirect
-	github.com/gofsd/fsd-types v0.0.2-dev.0.20240228221035-76c216838be2 // indirect
+	github.com/gofsd/fsd-types v0.0.2-dev.0.20240304200716-bc9b53b8cdf5 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-collections/collections v0.0.0-20130729185459-604e922904d3 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect

@@ -6,7 +6,9 @@ package cmd
 import (
 	"fmt"
 
+	types "github.com/gofsd/fsd-types"
 	"github.com/gofsd/fsd/pkg/fsd"
+
 	"github.com/spf13/cobra"
 )
 
@@ -20,9 +22,10 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fsd.Start(Port, MainCmd)
+	RunE: func(cmd *cobra.Command, args []string) error {
+		fsd.Start(types.Port, MainCmd)
 		fmt.Println("run called")
+		return nil
 	},
 }
 
@@ -35,5 +38,5 @@ func init() {
 	// and all subcommands, e.g.:
 	// runCmd.PersistentFlags().String("foo", "", "A help for foo")
 
-	runCmd.Flags().StringVarP(&Port, "port", "p", Port, "App port")
+	runCmd.Flags().StringVarP(&types.Port, "port", "p", types.Port, "App port")
 }

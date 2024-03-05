@@ -8,30 +8,12 @@ import (
 	"os"
 
 	//add
-	"github.com/gofsd/fsd/pkg/cfg"
+
+	types "github.com/gofsd/fsd-types"
 	"github.com/gofsd/fsd/pkg/prompt"
 
 	//add
 	"github.com/spf13/cobra"
-)
-
-const (
-	CREATE uint8 = iota + 1
-	READ
-	UPDATE
-	DELETE
-)
-
-const (
-	SERVER uint8 = iota + 1
-	CLIENT
-)
-
-// add
-var (
-	config = cfg.GetCfg()
-	DbName = "fsd.bolt"
-	Port   = "32104"
 )
 
 //add
@@ -50,13 +32,14 @@ to quickly create a Cobra application.`,
 		fmt.Println("root called")
 
 		//add
-		config.SetCommandPath(cmd.CommandPath())
+		//config.SetCommandPath(cmd.CommandPath())
 		prompt.New().Run()
 		//add
 	},
 }
 
 func init() {
+	os.MkdirAll(types.DBFullName, 0666)
 	MainCmd.SetOut(os.Stdout)
 	MainCmd.SetErr(os.Stderr)
 
@@ -72,7 +55,7 @@ func Execute() error {
 }
 
 func initConfig() {
-	config.ReadCfgFromFile(nil)
+	//config.ReadCfgFromFile(nil)
 	//config.SetMainCmd(MainCmd)
 	//config.SetLog()
 
